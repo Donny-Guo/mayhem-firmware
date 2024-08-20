@@ -260,117 +260,155 @@ class BLERxView : public View {
 
     OptionsField options_channel{
         {0 * 8, 0 * 8},
-        5,
-        {{"Ch.37 ", 37},
+            5,
+        {{"Ch.37", 37},
          {"Ch.38", 38},
          {"Ch.39", 39},
-         {"Auto", 40}}};
+         {"Auto", 40},
+         {"Ch.0", 0},
+         {"Ch.1", 1},
+         {"Ch.2", 2},
+         {"Ch.3", 3},
+         {"Ch.4", 4},
+         {"Ch.5", 5},
+         {"Ch.6", 6},
+         {"Ch.7", 7},
+         {"Ch.8", 8},
+         {"Ch.9", 9},
+         {"Ch.10", 10},
+         {"Ch.11", 11},
+         {"Ch.12", 12},
+         {"Ch.13", 13},
+         {"Ch.14", 14},
+         {"Ch.15", 15},
+         {"Ch.16", 16},
+         {"Ch.17", 17},
+         {"Ch.18", 18},
+         {"Ch.19", 19},
+         {"Ch.20", 20},
+         {"Ch.21", 21},
+         {"Ch.22", 22},
+         {"Ch.23", 23},
+         {"Ch.24", 24},
+         {"Ch.25", 25},
+         {"Ch.26", 26},
+         {"Ch.27", 27},
+         {"Ch.28", 28},
+         {"Ch.29", 29},
+         {"Ch.30", 30},
+         {"Ch.31", 31},
+         {"Ch.32", 32},
+         {"Ch.33", 33},
+         {"Ch.34", 34},
+         {"Ch.35", 35},
+         {"Ch.36", 36}}      
+    };
 
-    RxFrequencyField field_frequency{
-        {6 * 8, 0 * 16},
-        nav_};
+RxFrequencyField field_frequency{
+    {6 * 8, 0 * 16},
+    nav_};
 
-    RFAmpField field_rf_amp{
-        {16 * 8, 0 * 16}};
+RFAmpField field_rf_amp{
+    {16 * 8, 0 * 16}};
 
-    LNAGainField field_lna{
-        {18 * 8, 0 * 16}};
+LNAGainField field_lna{
+    {18 * 8, 0 * 16}};
 
-    VGAGainField field_vga{
-        {21 * 8, 0 * 16}};
+VGAGainField field_vga{
+    {21 * 8, 0 * 16}};
 
-    RSSI rssi{
-        {24 * 8, 0, 6 * 8, 4}};
+RSSI rssi{
+    {24 * 8, 0, 6 * 8, 4}};
 
-    Channel channel{
-        {24 * 8, 5, 6 * 8, 4}};
+Channel channel{
+    {24 * 8, 5, 6 * 8, 4}};
 
-    Labels label_sort{
-        {{0 * 8, 3 * 8}, "Sort:", Color::light_grey()}};
+Labels label_sort{
+    {{0 * 8, 3 * 8}, "Sort:", Color::light_grey()}};
 
-    OptionsField options_sort{
-        {5 * 8, 3 * 8},
-        4,
-        {{"MAC", 0},
-         {"Hits", 1},
-         {"dB", 2},
-         {"Time", 3},
-         {"Name", 4}}};
+OptionsField options_sort{
+    {5 * 8, 3 * 8},
+    4,
+    {{"MAC", 0},
+     {"Hits", 1},
+     {"dB", 2},
+     {"Time", 3},
+     {"Name", 4}}};
 
-    Button button_filter{
-        {11 * 8, 3 * 8, 4 * 8, 16},
-        "Filter"};
+Button button_filter{
+    {11 * 8, 3 * 8, 4 * 8, 16},
+    "Filter"};
 
-    Checkbox check_log{
-        {17 * 8, 3 * 8},
-        3,
-        "Log",
-        true};
+Checkbox check_log{
+    {17 * 8, 3 * 8},
+    3,
+    "Log",
+    true};
 
-    Checkbox check_name{
-        {23 * 8, 3 * 8},
-        3,
-        "Name",
-        true};
+Checkbox check_name{
+    {23 * 8, 3 * 8},
+    3,
+    "Name",
+    true};
 
-    Button button_find{
-        {0 * 8, 6 * 8, 4 * 8, 16},
-        "Find"};
+Button button_find{
+    {0 * 8, 6 * 8, 4 * 8, 16},
+    "Find"};
 
-    Labels label_found{
-        {{5 * 8, 6 * 8}, "Found:", Color::light_grey()}};
+Labels label_found{
+    {{5 * 8, 6 * 8}, "Found:", Color::light_grey()}};
 
-    Text text_found_count{
-        {11 * 8, 3 * 16, 20 * 8, 16},
-        "0/0"};
+Text text_found_count{
+    {11 * 8, 3 * 16, 20 * 8, 16},
+    "0/0"};
 
-    Checkbox check_serial_log{
-        {17 * 8, 3 * 16 - 2},
-        7,
-        "USB Log",
-        true};
+Checkbox check_serial_log{
+    {17 * 8, 3 * 16 - 2},
+    7,
+    "USB Log",
+    true};
 
-    Console console{
-        {0, 4 * 16, 240, 240}};
+Console console{
+    {0, 4 * 16, 240, 240}};
 
-    Button button_clear_list{
-        {2 * 8, 320 - (16 + 32), 7 * 8, 32},
-        "Clear"};
+Button button_clear_list{
+    {2 * 8, 320 - (16 + 32), 7 * 8, 32},
+    "Clear"};
 
-    Button button_save_list{
-        {11 * 8, 320 - (16 + 32), 11 * 8, 32},
-        "Export CSV"};
+Button button_save_list{
+    {11 * 8, 320 - (16 + 32), 11 * 8, 32},
+    "Export CSV"};
 
-    Button button_switch{
-        {240 - 6 * 8, 320 - (16 + 32), 4 * 8, 32},
-        "Tx"};
+Button button_switch{
+    {240 - 6 * 8, 320 - (16 + 32), 4 * 8, 32},
+    "Tx"};
 
-    std::string str_log{""};
-    std::unique_ptr<BLELogger> logger{};
+std::string str_log{""};
+std::unique_ptr<BLELogger> logger{};
 
-    BleRecentEntries recent{};
-    BleRecentEntries tempList{};
+BleRecentEntries recent{};
+BleRecentEntries tempList{};
 
-    const RecentEntriesColumns columns{{
-        {"Mac Address", 17},
-        {"Hits", 7},
-        {"dB", 4},
+const RecentEntriesColumns columns{{
+    {"Mac Address", 17},
+    {"Hits", 7},
+    {"dB", 4},
+}};
+
+BleRecentEntriesView recent_entries_view{columns, recent};
+
+MessageHandlerRegistration message_handler_packet{
+    Message::ID::BlePacket,
+    [this](Message* const p) {
+        const auto message = static_cast<const BLEPacketMessage*>(p);
+        this->on_data(message->packet);
     }};
 
-    BleRecentEntriesView recent_entries_view{columns, recent};
-
-    MessageHandlerRegistration message_handler_packet{
-        Message::ID::BlePacket,
-        [this](Message* const p) {
-            const auto message = static_cast<const BLEPacketMessage*>(p);
-            this->on_data(message->packet);
-        }};
-
-    MessageHandlerRegistration message_handler_frame_sync{
-        Message::ID::DisplayFrameSync,
-        [this](const Message* const) {
-            this->on_timer();
-        }};
+MessageHandlerRegistration message_handler_frame_sync{
+    Message::ID::DisplayFrameSync,
+    [this](const Message* const) {
+        this->on_timer();
+    }};
 };
 
 } /* namespace ui */
