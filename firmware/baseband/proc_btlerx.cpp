@@ -307,6 +307,7 @@ void BTLERxProcessor::handlePDUPayloadState() {
             blePacketData.macAddress[4] = rb_buf[3];
             blePacketData.macAddress[5] = rb_buf[2];
 
+            blePacketData.channel_num = channel_number;
             // Skip Header Byte and MAC Address
             uint8_t startIndex = 8;
 

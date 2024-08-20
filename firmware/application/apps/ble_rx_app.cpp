@@ -696,6 +696,8 @@ void BLERxView::on_data(BlePacketData* packet) {
     }
 
     str_console += pdu_type_to_string((ADV_PDU_TYPE)packet->type);
+    str_console += " Ch:";                                   
+    str_console += to_string_dec_uint(packet->channel_num);
     str_console += " Len:";
     str_console += to_string_dec_uint(packet->size);
     str_console += " Mac:";
@@ -717,9 +719,16 @@ void BLERxView::on_data(BlePacketData* packet) {
 
     // Add entries if they meet the criteria.
     auto value = filter;
+    // the criteria: the datastring or namestring or mac address contains the word (variable: value) set by user  
     resetFilteredEntries(recent, [&value](const BleRecentEntry& entry) {
-        return (entry.dataString.find(value) == std::string::npos) && (entry.nameString.find(value) == std::string::npos);
+        return (entry.dataString.find(value) == std::string::npos) && (entry.nameString.find(value) == std::string::npos) && (to_string_mac_address(entry.packetData.macAddress, 6, false).find(value) == std::string::npos);
     });
+
+    // Add nameString to str_console based on updated entry
+    if (!entry.nameString.empty()) {
+        str_console += " Name:";
+        str_console += entry.nameString;
+    }
 
     handle_entries_sort(options_sort.selected_index());
 
@@ -914,6 +923,7 @@ void BLERxView::updateEntry(const BlePacketData* packet, BleRecentEntry& entry, 
 
             // Subtract 1 because type is part of the length.
             for (int i = 0; i < length - 1; i++) {
+                // parse the name of bluetooth device: 0x08->Shortened Local Name; 0x09->Complete Local Name
                 if (type == 0x08 || type == 0x09) {
                     decoded_data += (char)advertiseData->Data[currentByte];
                 }

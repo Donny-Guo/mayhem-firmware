@@ -439,6 +439,7 @@ struct BlePacketData {
     uint8_t macAddress[6];
     uint8_t data[40];
     uint8_t dataLen;
+    uint8_t channel_num;
 };
 
 class BLEPacketMessage : public Message {
