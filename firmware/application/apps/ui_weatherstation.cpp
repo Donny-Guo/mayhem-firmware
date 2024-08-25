@@ -105,7 +105,7 @@ WeatherView::WeatherView(NavigationView& nav)
         recent.clear();
         recent_entries_view.set_dirty();
     };
-    field_frequency.set_step(100000);
+    field_frequency.set_step(10000);
 
     options_temperature.on_change = [this](size_t, int32_t i) {
         weather_units_fahr = (bool)i;
@@ -203,7 +203,12 @@ const char* WeatherView::getWeatherSensorTypeName(FPROTO_WEATHER_SENSOR type) {
             return "Wendox W6726";
         case FPW_Acurite986:
             return "Acurite986";
-
+        case FPW_KEDSUM:
+            return "Kedsum";
+        case FPW_Acurite5in1:
+            return "Acurite5in1";
+        case FPW_EmosE601x:
+            return "EmosE601x";
         case FPW_Invalid:
         default:
             return "Unknown";
