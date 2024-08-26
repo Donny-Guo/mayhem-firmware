@@ -186,7 +186,7 @@ class BLERxView : public View {
     ~BLERxView();
 
     void set_parent_rect(const Rect new_parent_rect) override;
-    void paint(Painter&) override{};
+    void paint(Painter&) override {};
 
     void focus() override;
 
@@ -214,6 +214,7 @@ class BLERxView : public View {
 
     uint8_t channel_index{0};
     uint8_t sort_index{0};
+    uint8_t filter_index{0};
     std::string filter{};
     bool logging{false};
     bool serial_logging{false};
@@ -255,12 +256,12 @@ class BLERxView : public View {
     std::filesystem::path log_packets_path{blerx_dir / u"Logs/????.TXT"};
     std::filesystem::path packet_save_path{blerx_dir / u"Lists/????.csv"};
 
-    static constexpr auto header_height = 4 * 16;
+    static constexpr auto header_height = 10 * 8;
     static constexpr auto switch_button_height = 3 * 16;
 
     OptionsField options_channel{
         {0 * 8, 0 * 8},
-            5,
+        5,
         {{"Ch.37", 37},
          {"Ch.38", 38},
          {"Ch.39", 39},
@@ -301,116 +302,120 @@ class BLERxView : public View {
          {"Ch.33", 33},
          {"Ch.34", 34},
          {"Ch.35", 35},
-         {"Ch.36", 36}}      
-    }
-};
+         {"Ch.36", 36}}};
 
-RxFrequencyField field_frequency{
-    {6 * 8, 0 * 16},
-    nav_};
+    RxFrequencyField field_frequency{
+        {6 * 8, 0 * 16},
+        nav_};
 
-RFAmpField field_rf_amp{
-    {16 * 8, 0 * 16}};
+    RFAmpField field_rf_amp{
+        {16 * 8, 0 * 16}};
 
-LNAGainField field_lna{
-    {18 * 8, 0 * 16}};
+    LNAGainField field_lna{
+        {18 * 8, 0 * 16}};
 
-VGAGainField field_vga{
-    {21 * 8, 0 * 16}};
+    VGAGainField field_vga{
+        {21 * 8, 0 * 16}};
 
-RSSI rssi{
-    {24 * 8, 0, 6 * 8, 4}};
+    RSSI rssi{
+        {24 * 8, 0, 6 * 8, 4}};
 
-Channel channel{
-    {24 * 8, 5, 6 * 8, 4}};
+    Channel channel{
+        {24 * 8, 5, 6 * 8, 4}};
 
     Labels label_sort{
         {{0 * 8, 3 * 8}, "Sort:", Theme::getInstance()->fg_light->foreground}};
 
-OptionsField options_sort{
-    {5 * 8, 3 * 8},
-    4,
-    {{"MAC", 0},
-     {"Hits", 1},
-     {"dB", 2},
-     {"Time", 3},
-     {"Name", 4}}};
+    OptionsField options_sort{
+        {5 * 8, 3 * 8},
+        4,
+        {{"MAC", 0},
+         {"Hits", 1},
+         {"dB", 2},
+         {"Time", 3},
+         {"Name", 4}}};
 
-Button button_filter{
-    {11 * 8, 3 * 8, 4 * 8, 16},
-    "Filter"};
+    Button button_filter{
+        {11 * 8, 3 * 8, 7 * 8, 16},
+        "Filter:"};
 
-Checkbox check_log{
-    {17 * 8, 3 * 8},
-    3,
-    "Log",
-    true};
+    OptionsField options_filter{
+        {18 * 8 + 2, 3 * 8},
+        4,
+        {{"Data", 0},
+         {"MAC", 1}}};
 
-Checkbox check_name{
-    {23 * 8, 3 * 8},
-    3,
-    "Name",
-    true};
+    Checkbox check_log{
+        {7 * 8, 6 * 8 - 2},
+        3,
+        "Log",
+        true};
 
-Button button_find{
-    {0 * 8, 6 * 8, 4 * 8, 16},
-    "Find"};
+    Checkbox check_name{
+        {0 * 8, 6 * 8 - 2},
+        3,
+        "Name",
+        true};
+
+    Button button_find{
+        {0 * 8, 8 * 8, 4 * 8, 16},
+        "Find"};
 
     Labels label_found{
-        {{5 * 8, 6 * 8}, "Found:", Theme::getInstance()->fg_light->foreground}};
+        {{5 * 8, 8 * 8}, "Found:", Theme::getInstance()->fg_light->foreground}};
 
-Text text_found_count{
-    {11 * 8, 3 * 16, 20 * 8, 16},
-    "0/0"};
+    Text text_found_count{
+        {11 * 8, 8 * 8, 20 * 8, 16},
+        "0/0"};
 
-Checkbox check_serial_log{
-    {17 * 8, 3 * 16 - 2},
-    7,
-    "USB Log",
-    true};
+    Checkbox check_serial_log{
+        {13 * 8, 3 * 16 - 2},
+        7,
+        "USB Log",
+        true};
 
-Console console{
-    {0, 4 * 16, 240, 240}};
+    // Console console{
+    //     {0, 10 * 8, 240, 240}};
 
-Button button_clear_list{
-    {2 * 8, 320 - (16 + 32), 7 * 8, 32},
-    "Clear"};
+    Button button_clear_list{
+        {2 * 8, 320 - (16 + 32), 7 * 8, 32},
+        "Clear"};
 
-Button button_save_list{
-    {11 * 8, 320 - (16 + 32), 11 * 8, 32},
-    "Export CSV"};
+    Button button_save_list{
+        {11 * 8, 320 - (16 + 32), 11 * 8, 32},
+        "Export CSV"};
 
-Button button_switch{
-    {240 - 6 * 8, 320 - (16 + 32), 4 * 8, 32},
-    "Tx"};
+    Button button_switch{
+        {240 - 6 * 8, 320 - (16 + 32), 4 * 8, 32},
+        "Tx"};
 
-std::string str_log{""};
-std::unique_ptr<BLELogger> logger{};
+    std::string str_log{""};
+    std::unique_ptr<BLELogger> logger{};
 
-BleRecentEntries recent{};
-BleRecentEntries tempList{};
+    BleRecentEntries recent{};
+    BleRecentEntries tempList{};
 
-const RecentEntriesColumns columns{{
-    {"Mac Address", 17},
-    {"Hits", 7},
-    {"dB", 4},
-}};
-
-BleRecentEntriesView recent_entries_view{columns, recent};
-
-MessageHandlerRegistration message_handler_packet{
-    Message::ID::BlePacket,
-    [this](Message* const p) {
-        const auto message = static_cast<const BLEPacketMessage*>(p);
-        this->on_data(message->packet);
+    const RecentEntriesColumns columns{{
+        {"Mac Address", 17},
+        {"Hits", 7},
+        {"dB", 4},
     }};
 
-MessageHandlerRegistration message_handler_frame_sync{
-    Message::ID::DisplayFrameSync,
-    [this](const Message* const) {
-        this->on_timer();
-    }};
-};
+    BleRecentEntriesView recent_entries_view{columns, recent};
+
+    MessageHandlerRegistration message_handler_packet{
+        Message::ID::BlePacket,
+        [this](Message* const p) {
+            const auto message = static_cast<const BLEPacketMessage*>(p);
+            this->on_data(message->packet);
+        }};
+
+    MessageHandlerRegistration message_handler_frame_sync{
+        Message::ID::DisplayFrameSync,
+        [this](const Message* const) {
+            this->on_timer();
+        }};
+}; /* BLERxView */
 
 } /* namespace ui */
 

@@ -428,6 +428,7 @@ BLERxView::BLERxView(NavigationView& nav)
                   &text_found_count,
                   &check_serial_log,
                   &button_filter,
+                  &options_filter,
                   &button_save_list,
                   &button_clear_list,
                   &button_switch,
@@ -525,8 +526,14 @@ BLERxView::BLERxView(NavigationView& nav)
         handle_entries_sort(v);
     };
 
+    options_filter.on_change = [this](size_t index, int32_t v) {
+        filter_index = (uint8_t)index;
+        // do sth
+    };
+
     options_channel.set_selected_index(channel_index, true);
     options_sort.set_selected_index(sort_index, true);
+    options_filter.set_selected_index(filter_index, true);
 
     button_find.on_select = [this](Button&) {
         auto open_view = nav_.push<FileLoadView>(".TXT");
@@ -863,7 +870,7 @@ void BLERxView::handle_entries_sort(uint8_t index) {
 
 void BLERxView::set_parent_rect(const Rect new_parent_rect) {
     View::set_parent_rect(new_parent_rect);
-    const Rect content_rect{0, header_height, new_parent_rect.width(), new_parent_rect.height() - header_height - switch_button_height};
+    const Rect content_rect{0, header_height, new_parent_rect.width(), new_parent_rect.height() - header_height - switch_button_height - 16};
     recent_entries_view.set_parent_rect(content_rect);
 }
 
