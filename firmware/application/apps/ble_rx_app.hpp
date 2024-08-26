@@ -256,7 +256,7 @@ class BLERxView : public View {
     std::filesystem::path log_packets_path{blerx_dir / u"Logs/????.TXT"};
     std::filesystem::path packet_save_path{blerx_dir / u"Lists/????.csv"};
 
-    static constexpr auto header_height = 10 * 8;
+    static constexpr auto header_height = 9 * 8;
     static constexpr auto switch_button_height = 3 * 16;
 
     OptionsField options_channel{
@@ -324,10 +324,10 @@ class BLERxView : public View {
         {24 * 8, 5, 6 * 8, 4}};
 
     Labels label_sort{
-        {{0 * 8, 3 * 8}, "Sort:", Theme::getInstance()->fg_light->foreground}};
+        {{0 * 8, 2 * 8}, "Sort:", Theme::getInstance()->fg_light->foreground}};
 
     OptionsField options_sort{
-        {5 * 8, 3 * 8},
+        {5 * 8, 2 * 8},
         4,
         {{"MAC", 0},
          {"Hits", 1},
@@ -336,40 +336,40 @@ class BLERxView : public View {
          {"Name", 4}}};
 
     Button button_filter{
-        {11 * 8, 3 * 8, 7 * 8, 16},
+        {11 * 8, 2 * 8, 7 * 8, 16},
         "Filter:"};
 
     OptionsField options_filter{
-        {18 * 8 + 2, 3 * 8},
+        {18 * 8 + 2, 2 * 8},
         4,
         {{"Data", 0},
          {"MAC", 1}}};
 
     Checkbox check_log{
-        {7 * 8, 6 * 8 - 2},
+        {10 * 8, 4 * 8 + 2},
         3,
         "Log",
         true};
 
     Checkbox check_name{
-        {0 * 8, 6 * 8 - 2},
+        {0 * 8, 4 * 8 + 2},
         3,
         "Name",
         true};
 
     Button button_find{
-        {0 * 8, 8 * 8, 4 * 8, 16},
+        {0 * 8, 7 * 8 - 2, 4 * 8, 16},
         "Find"};
 
     Labels label_found{
-        {{5 * 8, 8 * 8}, "Found:", Theme::getInstance()->fg_light->foreground}};
+        {{5 * 8, 7 * 8 - 2}, "Found:", Theme::getInstance()->fg_light->foreground}};
 
     Text text_found_count{
-        {11 * 8, 8 * 8, 20 * 8, 16},
+        {11 * 8, 7 * 8 - 2, 20 * 8, 16},
         "0/0"};
 
     Checkbox check_serial_log{
-        {13 * 8, 3 * 16 - 2},
+        {18 * 8 + 2, 4 * 8 + 2},
         7,
         "USB Log",
         true};

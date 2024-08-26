@@ -870,7 +870,7 @@ void BLERxView::handle_entries_sort(uint8_t index) {
 
 void BLERxView::set_parent_rect(const Rect new_parent_rect) {
     View::set_parent_rect(new_parent_rect);
-    const Rect content_rect{0, header_height, new_parent_rect.width(), new_parent_rect.height() - header_height - switch_button_height - 16};
+    const Rect content_rect{0, header_height, new_parent_rect.width(), new_parent_rect.height() - header_height - switch_button_height};
     recent_entries_view.set_parent_rect(content_rect);
 }
 
