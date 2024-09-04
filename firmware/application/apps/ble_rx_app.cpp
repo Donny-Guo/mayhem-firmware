@@ -500,7 +500,7 @@ BLERxView::BLERxView(NavigationView& nav)
 
     check_name.on_select = [this](Checkbox&, bool v) {
         name_enable = v;
-        setAllMembersToValue(recent, &BleRecentEntry::include_name, v);
+        setAllMembersToValue(recent, &BleRecentEntry::include_name, v); // update the include_name instance variable value of each entry in recent entries
         recent_entries_view.set_dirty();
     };
 
@@ -528,7 +528,7 @@ BLERxView::BLERxView(NavigationView& nav)
 
     options_filter.on_change = [this](size_t index, int32_t v) {
         filter_index = (uint8_t)index;
-        // do sth
+        handle_filter_options(v);
     };
 
     options_channel.set_selected_index(channel_index, true);
@@ -725,11 +725,13 @@ void BLERxView::on_data(BlePacketData* packet) {
     updateEntry(packet, entry, (ADV_PDU_TYPE)packet->type);
 
     // Add entries if they meet the criteria.
-    auto value = filter;
+    // auto value = filter;
+
     // the criteria: the datastring or namestring or mac address contains the word (variable: value) set by user  
-    resetFilteredEntries(recent, [&value](const BleRecentEntry& entry) {
-        return (entry.dataString.find(value) == std::string::npos) && (entry.nameString.find(value) == std::string::npos) && (to_string_mac_address(entry.packetData.macAddress, 6, false).find(value) == std::string::npos);
-    });
+    // resetFilteredEntries(recent, [&value](const BleRecentEntry& entry) {
+    //     return (entry.dataString.find(value) == std::string::npos) && (entry.nameString.find(value) == std::string::npos) && (to_string_mac_address(entry.packetData.macAddress, 6, false).find(value) == std::string::npos);
+    // });
+    handle_filter_options(options_filter.selected_index());
 
     // Add nameString to str_console based on updated entry
     if (!entry.nameString.empty()) {
@@ -772,12 +774,15 @@ void BLERxView::on_data(BlePacketData* packet) {
 void BLERxView::on_filter_change(std::string value) {
     // New filter? Reset list from recent entries.
     if (filter != value) {
-        resetFilteredEntries(recent, [&value](const BleRecentEntry& entry) {
-            return (entry.dataString.find(value) == std::string::npos) && (entry.nameString.find(value) == std::string::npos);
-        });
+        // resetFilteredEntries(recent, [&value](const BleRecentEntry& entry) {
+        //     // return (entry.dataString.find(value) == std::string::npos) && (entry.nameString.find(value) == std::string::npos);
+        //     return (entry.dataString.find(value) == std::string::npos) && (entry.nameString.find(value) == std::string::npos) && (to_string_mac_address(entry.packetData.macAddress, 6, false).find(value) == std::string::npos);
+        // });
+        filter = value;
+        handle_filter_options(options_filter.selected_index());
     }
 
-    filter = value;
+    // filter = value;
 }
 
 void BLERxView::on_file_changed(const std::filesystem::path& new_file_path) {
@@ -866,6 +871,25 @@ void BLERxView::handle_entries_sort(uint8_t index) {
     }
 
     recent_entries_view.set_dirty();
+}
+
+void BLERxView::handle_filter_options(uint8_t index) {
+    auto value = filter;
+
+    switch (index) {
+        case 0:  // filter by Data
+            resetFilteredEntries(recent, [&value](const BleRecentEntry& entry) {
+                return (entry.dataString.find(value) == std::string::npos) && (entry.nameString.find(value) == std::string::npos);
+            });
+            break;
+        case 1:  // filter by MAC
+            resetFilteredEntries(recent, [&value](const BleRecentEntry& entry) {
+                return (to_string_mac_address(entry.packetData.macAddress, 6, false).find(value) == std::string::npos);
+            });
+            break;
+        default:
+            break;
+    }
 }
 
 void BLERxView::set_parent_rect(const Rect new_parent_rect) {

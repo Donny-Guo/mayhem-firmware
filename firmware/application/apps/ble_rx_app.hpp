@@ -203,6 +203,7 @@ class BLERxView : public View {
     void file_error();
     void on_timer();
     void handle_entries_sort(uint8_t index);
+    void handle_filter_options(uint8_t index);
     void updateEntry(const BlePacketData* packet, BleRecentEntry& entry, ADV_PDU_TYPE pdu_type);
 
     NavigationView& nav_;
